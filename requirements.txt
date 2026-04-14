@@ -9,3 +9,4 @@ streamlit==1.56.0
 requests==2.31.0
 python-dotenv==1.2.2
 groq==0.28.0
+python-multipart==0.0.20
