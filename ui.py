@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "https://rag-pipeline-production-ccb0.up.railway.app/docs"
+API_URL = "https://rag-pipeline-production-ccb0.up.railway.app"
 
 st.set_page_config(page_title="RAG Document Assistant", page_icon="📄", layout="wide")
 st.title("📄 Document Intelligence Assistant")
