@@ -2,6 +2,8 @@
 
 A production-ready Retrieval-Augmented Generation (RAG) system that lets users upload documents and ask natural language questions, receiving accurate, cited answers in real time.
 
+[ live Demo:](https://docpall.streamlit.app/)
+
 ## Problem
 
 Information retrieval from large document collections is slow and imprecise. Traditional keyword search misses semantic meaning; pure vector search misses exact keyword matches. This system combines both approaches to deliver fast, accurate, cited answers from any uploaded document set.
@@ -103,4 +105,4 @@ Then open `http://localhost:8501`, upload a document, and start asking questions
 
 ## Live Demo
 
-Backend API: (https://docpall.streamlit.app/)
+[ live Demo:](https://docpall.streamlit.app/)
