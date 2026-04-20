@@ -1,0 +1,252 @@
+[
+    {
+        "question": "What is a financial intermediary?",
+        "ground_truth": "A financial intermediary is an institution such as a bank that borrows money from suppliers of capital and lends it to users of capital. Intermediaries include investment dealers, banks, credit unions, trust companies, and insurance companies.",
+        "type": "factual"
+    },
+    {
+        "question": "What is CIRO and how was it formed?",
+        "ground_truth": "CIRO is the Canadian Investment Regulatory Organization, the national self-regulatory organization that oversees all investment dealers, mutual fund dealers, and trading activity on Canada's debt, equity, and mutual fund marketplaces. It was formed on January 1, 2023 through the amalgamation of the Investment Industry Regulatory Organization of Canada (IIROC) and the Mutual Fund Dealers Association of Canada (MFDA).",
+        "type": "factual"
+    },
+    {
+        "question": "What are the three categories of investment dealers in Canada?",
+        "ground_truth": "The three categories of investment dealers are retail firms, which include full-service investment dealers and self-directed brokers; institutional firms, which serve exclusively institutional clients such as pension funds and mutual funds; and integrated firms, which offer products and services across the industry and participate fully in both retail and institutional markets.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between a principal transaction and an agency transaction for an investment dealer?",
+        "ground_truth": "In a principal transaction, the investment dealer owns the securities as part of their inventory and profits from the difference between the buying and selling price. In an agency transaction, the investment dealer acts on behalf of buyers or sellers without owning title to the securities at any time, and earns a commission for executing the trade.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the difference between a full-service retail firm and a self-directed broker?",
+        "ground_truth": "Full-service retail firms offer a wide variety of products and services for retail investors and provide various levels of investment advice based on the financial and wealth management concerns of their clients. Self-directed brokers, also known as discount brokers, execute trades for clients at reduced rates but do not provide investment advice.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the difference between clearing and settlement?",
+        "ground_truth": "Clearing is the process of confirming and matching security trade details, while settlement is the irrevocable moment when cash and securities are exchanged.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the difference between a defined benefit and a defined contribution pension plan?",
+        "ground_truth": "A defined benefit pension plan provides employees with a pre-determined specified payment amount when they retire, with risks such as longevity and market volatility borne entirely by the employer. A defined contribution pension plan allows employees and employers to contribute to a plan that invests funds over time, but the final benefit amount depends on how contributions are invested over the plan's life, with risks passed on to the employee.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is a robo-advisor?",
+        "ground_truth": "A robo-advisor is an online investment service that provides clients with goal-based investment management using algorithms based on modern portfolio theory and online client questionnaires. Portfolios are built primarily with exchange-traded funds, are regularly rebalanced, and advisor support is offered to varying degrees online or by phone.",
+        "type": "factual"
+    },
+    {
+        "question": "What are the three characteristics of capital?",
+        "ground_truth": "Capital has three important characteristics: mobility, sensitivity to its environment, and scarcity. These characteristics allow capital to be selective about where it settles, moving to countries or locations where favourable conditions exist such as stable government, economic activity that is not heavily regulated, a hospitable investment climate, and profitable investment opportunities.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between the primary market and the secondary market?",
+        "ground_truth": "In the primary market, newly issued securities are sold by companies and governments directly to investors, with companies raising capital by selling stocks or bonds. In the secondary market, investors trade securities that have already been issued, buying and selling among each other at mutually beneficial prices. The issuing company does not receive any proceeds from secondary market transactions.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the difference between an auction market and a dealer market?",
+        "ground_truth": "In an auction market, buyers enter bids and sellers enter offers that are channelled to a single central market where they compete against each other, with a trade executed only when bid and ask prices match. In a dealer market, also called an over-the-counter market, market makers post bid-and-ask quotations via electronic platforms and computer networks, and investment dealers typically act as principals rather than agents.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the money market?",
+        "ground_truth": "The money market is the part of the capital market where only short-term fixed-income securities with a term of one year or less are traded.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between equity securities and fixed-income securities?",
+        "ground_truth": "Fixed-income securities, also called debt securities, formalize a relationship in which the issuer promises to repay the loan at maturity and makes interest payments to the investor in the interim. Equity securities, commonly called stocks or shares, represent some form of ownership stake in the company that issued them, with investors profiting through capital gains if the company increases in value.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is a stock exchange?",
+        "ground_truth": "A stock exchange is an auction market where buyers and sellers of securities meet to trade with each other and where prices are established according to the laws of supply and demand. On Canadian stock exchanges, trading is carried out in common and preferred shares, rights and warrants, exchange-traded funds, income trusts, and a few convertible debentures.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between a retail investor and an institutional investor?",
+        "ground_truth": "Retail investors are individual clients who buy and sell securities for their personal accounts. Institutional investors are organizations such as pension and mutual fund companies that trade in large-share quantities or dollar amounts and typically have a steady flow of money to invest.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is an alternative trading system?",
+        "ground_truth": "Alternative trading systems are electronic marketplaces that provide automated matching and execution of trades in both the equity and fixed-income markets. They compete with recognized exchanges and must be registered as an investment dealer and a member of CIRO. Unlike traditional exchanges, ATSs trade securities listed on traditional exchanges but cannot themselves list securities.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the Canadian Securities Administrators and what is its mission?",
+        "ground_truth": "The Canadian Securities Administrators is an umbrella organization of Canada's ten provincial and three territorial securities regulators designed to improve, coordinate and harmonize regulation of the Canadian capital markets. Its mission is to develop a national regulatory system that fosters fair, efficient, and vibrant capital markets in which investors are protected from unfair, improper, and fraudulent practices.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between principles-based regulation and rules-based regulation?",
+        "ground_truth": "Under a principles-based approach, regulators set objectives for securities dealers and allow the firms themselves to decide how best to meet those objectives, making it clearer, simpler, and less costly to apply while requiring good judgment. Under a rules-based approach, detailed rules are imposed to provide clarity and legal certainty to market participants, but it is more prescriptive and less flexible.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the difference between the Canadian Investor Protection Fund and the Canada Deposit Insurance Corporation?",
+        "ground_truth": "The Canadian Investor Protection Fund protects eligible customers of CIRO dealer members against loss in the event of member firm insolvency, covering general accounts up to $1 million and separate accounts such as registered retirement accounts each up to $1 million, and is sponsored solely by CIRO. The Canada Deposit Insurance Corporation is a federal Crown Corporation that insures eligible deposits up to $100,000 per depositor at member institutions such as banks, trust companies, and loan companies.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is front running?",
+        "ground_truth": "Front running is the unethical practice of trading in one's own account before effecting the same trade for a client.",
+        "type": "factual"
+    },
+    {
+        "question": "What are the four primary objectives of securities regulation in Canada?",
+        "ground_truth": "The four primary objectives of securities regulation are consumer protection, to protect investors from fraud and abusive practices; fairness, to ensure no participant has an unfair advantage; economic stability, to ensure the efficient flow of capital across the economy; and social objectives, to dissuade criminal activities such as money laundering.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between risk tolerance and risk capacity?",
+        "ground_truth": "Risk tolerance refers to a client's willingness to accept risk, while risk capacity refers to their ability to endure a potential financial loss. According to NI 31-103, a client's risk profile should reflect the lower of their risk tolerance and their risk capacity.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is arbitration and when is it available to investors?",
+        "ground_truth": "Arbitration is a method of dispute resolution in which an independent arbitrator listens to the facts and arguments of both sides and decides how the dispute should be resolved. To be eligible, the investor must have first attempted to resolve the dispute with the investment dealer and the claim must not exceed $500,000, though higher claims may also be arbitrated if both parties agree. The arbitrator's decision is binding on both parties.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between the role of CIRO and the role of the Canadian Securities Administrators in regulating the securities industry?",
+        "ground_truth": "The Canadian Securities Administrators is an umbrella organization of provincial and territorial securities regulators that coordinates and harmonizes regulation across Canada and monitors the conduct of SROs. CIRO is Canada's national self-regulatory organization delegated authority by the provincial regulators to oversee all investment dealers, mutual fund dealers, and trading activity, setting and enforcing rules for its dealer members and their registered employees.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is fiscal policy and what are its two key tools?",
+        "ground_truth": "Fiscal policy informs government decisions around the use of its spending and taxation powers to influence economic activity, employment levels, and sustained long-term growth. The government's two key fiscal policy tools are spending and taxation.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the overnight rate?",
+        "ground_truth": "The overnight rate is the interest rate set in the overnight market, a marketplace wherein major Canadian financial institutions lend each other money in the form of one-day loans. Changes in the target for the overnight rate influence other short-term interest rates for things such as consumer loans or mortgages.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between a budget surplus, budget deficit, and balanced budget?",
+        "ground_truth": "A budget surplus occurs when government revenue exceeds spending. A budget deficit occurs when government spending exceeds revenue, requiring the government to borrow from capital markets. A balanced budget occurs when government revenue equals spending.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the difference between fiscal policy and monetary policy in terms of their tools and objectives?",
+        "ground_truth": "Fiscal policy uses government spending and taxation to influence economic activity and employment, and is conducted by the federal and provincial governments through the annual budget. Monetary policy uses interest rate adjustments and open market operations to preserve the value of money by keeping inflation low, stable, and predictable, and is conducted independently by the Bank of Canada.",
+        "type": "comparison"
+    },
+    {
+        "question": "What are the four main areas of responsibility of the Bank of Canada?",
+        "ground_truth": "The Bank of Canada has four main areas of responsibility: monetary policy, which preserves the value of the Canadian dollar by keeping inflation low, stable, and predictable; the Canadian financial system, which promotes and maintains the efficient operation of the financial system; physical currency, which involves designing, printing, and distributing Canadian bank notes; and funds management, in which the Bank acts as fiscal agent for the Government of Canada.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between an overnight repo and an overnight reverse repo?",
+        "ground_truth": "An overnight repo is used by the Bank of Canada when it wants to push interest rates down by offering to lend money at a lower rate, purchasing Treasury bills from financial institutions on an overnight basis and increasing the money available in the financial system. An overnight reverse repo is used to increase interest rates by offering to borrow money at a higher rate, selling Treasury bills to financial institutions and reducing the money available in the financial system.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the difference between a drawdown and a redeposit?",
+        "ground_truth": "A drawdown is the transfer of deposits to the Bank of Canada from the chartered banks, which drains the supply of available cash balances from the banking system, causing interest rates to increase. A redeposit is a transfer of funds from the Bank to the chartered banks, which increases the money available in the financial system, causing interest rates to decrease.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the national debt?",
+        "ground_truth": "The national debt consists of accumulated past deficits minus accumulated past surpluses in the federal budget. When the government runs a deficit, it must borrow from the capital markets to finance the national debt by issuing debt instruments such as bonds and Treasury bills.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between a bond and a debenture?",
+        "ground_truth": "A bond is a long-term fixed-obligation debt security that is secured by physical assets such as a building or railway car owned by the issuing company. A debenture is a type of bond that is secured by something other than a specified physical asset, typically by a general claim on residual assets and backed by the general creditworthiness of the issuer, which is why debentures are also referred to as unsecured bonds.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is a Treasury bill and how does it generate a return for investors?",
+        "ground_truth": "Treasury bills are short-term government obligations offered in denominations from as low as $1,000. They do not pay interest; instead they are sold at a discount below par and mature at 100. The difference between the issue price and par at maturity represents the return on the investment, which is taxable as income rather than a capital gain under the Income Tax Act.",
+        "type": "factual"
+    },
+    {
+        "question": "What is a strip bond and how is it created?",
+        "ground_truth": "A strip bond, also called a zero-coupon bond, is created when a dealer acquires a block of high-quality bonds and separates the individual future-dated interest coupons from the rest of the bond, known as the bond residue. The dealer then sells each coupon and the residue separately at significant discounts to their face value. Holders receive no periodic interest payments; instead the strips are purchased at a price that provides a compounded rate of return when they mature at par.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between a callable bond and a convertible bond?",
+        "ground_truth": "A callable bond gives the issuer the right but not the obligation to pay off the bond before maturity, either to take advantage of lower interest rates or reduce debt, with the call price usually set higher than par value as compensation to the investor. A convertible bond gives the holder the option to exchange the bond for common shares of the issuing company at a specified conversion price, offering the possibility of capital appreciation while still providing fixed income.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the difference between a sinking fund and a purchase fund?",
+        "ground_truth": "A sinking fund consists of sums of money set aside out of earnings each year to provide for the repayment of all or part of a debt issue by maturity, with provisions that are binding on the issuer. A purchase fund establishes a fund to retire a specified amount of outstanding bonds through purchases in the market only when the trading price is at or below a stipulated price, meaning it may retire a smaller portion of an issue depending on market conditions.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is a real return bond and how does it differ from a conventional bond?",
+        "ground_truth": "Like conventional bonds, real return bonds pay interest throughout the life of the bond and repay the original principal at maturity. Unlike conventional bonds, the coupon payments and principal repayment are adjusted for inflation to provide a fixed real coupon rate. At each interest payment date the real coupon rate is applied to a principal balance that has been adjusted for the cumulative level of inflation since the date the bond was issued.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is commercial paper?",
+        "ground_truth": "Commercial paper is either an unsecured promissory note issued by a corporation or an asset-backed security backed by a pool of underlying financial assets. Issue terms range from less than three months to one year. Like T-bills, commercial paper is sold at a discount and matures at face value, is issued by large firms with an established financial history, and generally offers a higher yield than Government of Canada T-bills.",
+        "type": "factual"
+    },
+    {
+        "question": "What is the difference between Government of Canada bonds and provincial bonds in terms of security and quality?",
+        "ground_truth": "Government of Canada bonds are the highest quality bonds issued by Canadian issuers, are noncallable, and cannot be called for redemption before maturity. Provincial bonds, like Government of Canada bonds, are actually debentures since they are simply promises to pay with no provincial assets pledged as security, and are second in quality only to Government of Canada direct and guaranteed bonds because most provinces have taxation powers second only to the federal government.",
+        "type": "comparison"
+    },
+    {
+        "question": "What is the weather forecast for Toronto this weekend?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "Who won the NHL playoffs last year?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "What is the best restaurant in Vancouver?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "How do I make pasta carbonara?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "Who is the current Prime Minister of Canada?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "What movies are playing in cinemas this week?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "How do I fix a bug in my Python code?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "What is the latest iPhone model?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "What is the capital city of Australia?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    },
+    {
+        "question": "What is the population of Canada?",
+        "ground_truth": "out_of_scope",
+        "type": "out_of_scope"
+    }
+]
