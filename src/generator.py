@@ -1,33 +1,43 @@
 import os
-import requests
+import yaml
 from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
-MODEL = "llama-3.1-8b-instant"
+with open("prompts.yaml") as f:
+    prompts = yaml.safe_load(f)
 
-def generate_answer(query, context_chunks):
+llm = ChatGroq(
+    model="llama-3.1-8b-instant",
+    temperature=0,
+    api_key=os.getenv("GROQ_API_KEY")
+)
+
+# Factual chain
+factual_prompt = ChatPromptTemplate.from_messages([
+    ("system", prompts["factual_qa"]["system"]),
+    ("human", prompts["factual_qa"]["human"])
+])
+factual_chain = factual_prompt | llm | StrOutputParser()
+
+# Comparison chain
+comparison_prompt = ChatPromptTemplate.from_messages([
+    ("system", prompts["comparison_qa"]["system"]),
+    ("human", prompts["comparison_qa"]["human"])
+])
+comparison_chain = comparison_prompt | llm | StrOutputParser()
+
+def generate_answer(query: str, context_chunks: list, query_type: str = "factual") -> dict:
     context = "\n\n".join(context_chunks)
-    prompt = prompt = f"""You are a helpful assistant. Answer the question based only on the context below.
-If the answer is not in the context, say "I don't have enough information."
-At the end of your answer, always add a line that says:
-"Source used: [quote the specific sentence from the context you relied on most]"
-
-Context:
-{context}
-
-Question: {query}
-Answer:"""
-
-    headers = {
-        "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type": "application/json"
+    chain = comparison_chain if query_type == "comparison" else factual_chain
+    answer = chain.invoke({"context": context, "question": query})
+    declined = "cannot find sufficient evidence" in answer.lower()
+    return {
+        "answer": answer,
+        "declined": declined,
+        "cited": not declined,
+        "prompt_version": prompts["version"]
     }
-    payload = {
-        "model": MODEL,
-        "messages": [{"role": "user", "content": prompt}]
-    }
-    response = requests.post(GROQ_URL, headers=headers, json=payload)
-    return response.json()['choices'][0]['message']['content']

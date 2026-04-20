@@ -2,31 +2,47 @@ import os
 import time
 from src.chunker import extract_text, chunk_text
 from src.embedder import embed_and_store, get_collection
-from src.retriever import hybrid_search
-from src.generator import generate_answer
+from src.graph import build_graph
+from dotenv import load_dotenv
+load_dotenv()
+
+os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGCHAIN_API_KEY", "")
+os.environ["LANGCHAIN_TRACING_V2"] = os.getenv("LANGCHAIN_TRACING_V2", "false")
+os.environ["LANGCHAIN_PROJECT"] = os.getenv("LANGCHAIN_PROJECT", "docpal-finance")
 
 all_chunks = []
+ingested_sources = {}
 
-def process_document(file_path):
-    source_name = os.path.basename(file_path)
-    text = extract_text(file_path)
+def process_document(source: str):
+    if source.startswith("http://") or source.startswith("https://"):
+        source_name = source
+    else:
+        source_name = os.path.basename(source)
+
+    text = extract_text(source)
     chunks = chunk_text(text)
     embed_and_store(chunks, source_name)
     all_chunks.extend(chunks)
+
+    ingested_sources[source_name] = {
+        "chunks": len(chunks),
+        "ingested_at": time.strftime("%Y-%m-%d %H:%M:%S")
+    }
+
     return len(chunks)
 
-def ask(query):
-    start = time.time()
-    chunks, metadata = hybrid_search(query, all_chunks)
-    retrieval_time = round((time.time() - start) * 1000, 1)
-    
-    start = time.time()
-    answer = generate_answer(query, chunks)
-    generation_time = round((time.time() - start) * 1000, 1)
-    
-    return {
-        'answer': answer,
-        'sources': metadata,
-        'retrieval_ms': retrieval_time,
-        'generation_ms': generation_time
-    }
+def ask(query: str):
+    graph = build_graph(all_chunks)
+    result = graph.invoke({
+        "query": query,
+        "query_type": "",
+        "chunks": [],
+        "metadata": [],
+        "answer": "",
+        "declined": False,
+        "cited": False,
+        "prompt_version": "",
+        "retrieval_ms": 0.0,
+        "generation_ms": 0.0
+    })
+    return result
