@@ -1,0 +1,61 @@
+name: RAG Evaluation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Ingest documents
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
+          LANGCHAIN_TRACING_V2: "true"
+          LANGCHAIN_PROJECT: "docpal-finance-ci"
+          RENDER: "true"
+        run: |
+          python3 evaluation/ingest_docs.py
+
+      - name: Run evaluation
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
+          LANGCHAIN_TRACING_V2: "true"
+          LANGCHAIN_PROJECT: "docpal-finance-ci"
+          RENDER: "true"
+        run: |
+          python3 evaluation/run_eval.py
+
+      - name: Upload evaluation results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: eval-results
+          path: evaluation/results.json
