@@ -20,7 +20,7 @@ st.markdown("""
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body, [data-testid="stAppViewContainer"] {
-    background-color: #0A0E1A !important;
+    background-color: #111827 !important;
     color: #E8EAF0 !important;
     font-family: 'DM Sans', sans-serif !important;
 }
@@ -232,7 +232,7 @@ h1, h2, h3 {
     background: rgba(255,255,255,0.03) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: 4px !important;
-    color: #E8EAF0 !important;
+    color: #A8B4D0 !important;
     font-family: 'DM Sans', sans-serif !important;
     font-size: 0.95rem !important;
     padding: 0.8rem 1rem !important;
