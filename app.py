@@ -43,6 +43,7 @@ def ask(query: str):
         "cited": False,
         "prompt_version": "",
         "retrieval_ms": 0.0,
-        "generation_ms": 0.0
+        "generation_ms": 0.0,
+        "trace_url": ""
     })
     return result

@@ -27,6 +27,7 @@ class RAGState(TypedDict):
     prompt_version: str
     retrieval_ms: float
     generation_ms: float
+    trace_url: str  # 👈 new
 
 # --- Router Node ---
 router_prompt = ChatPromptTemplate.from_messages([
@@ -65,7 +66,8 @@ def generation_node(state: RAGState) -> dict:
         "declined": result["declined"],
         "cited": result["cited"],
         "prompt_version": result["prompt_version"],
-        "generation_ms": generation_ms
+        "generation_ms": generation_ms,
+        "trace_url": result.get("trace_url")
     }
 
 # --- Out of Scope Node ---
