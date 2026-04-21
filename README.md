@@ -1,108 +1,107 @@
-# RAG Document Assistant
+# DocPal Finance 🏦
 
-A production-ready Retrieval-Augmented Generation (RAG) system that lets users upload documents and ask natural language questions, receiving accurate, cited answers in real time.
+A production-grade RAG (Retrieval-Augmented Generation) assistant for financial advisors, built on the Canadian Securities Course (CSC) material. Fully observable, evaluated, and CI-gated.
 
-[ live Demo:](https://docpall.streamlit.app/)
-
-## Problem
-
-Information retrieval from large document collections is slow and imprecise. Traditional keyword search misses semantic meaning; pure vector search misses exact keyword matches. This system combines both approaches to deliver fast, accurate, cited answers from any uploaded document set.
-
-## Approach
-
-1. **Document ingestion** — PDFs and text files are extracted and chunked into 500-word segments with a 50-word overlap to preserve context at chunk boundaries
-2. **Embedding** — each chunk is encoded into a 384-dimensional vector using `sentence-transformers` (all-MiniLM-L6-v2) and stored in ChromaDB
-3. **Hybrid retrieval** — queries are answered using both dense vector similarity search (ChromaDB) and BM25 keyword search, fused via **Reciprocal Rank Fusion (RRF)** to combine the strengths of semantic and keyword matching
-4. **Generation** — top retrieved chunks are passed as context to **Llama 3.1 8B** via the Groq API, with a structured prompt that constrains answers to the provided context and requires source citation
-5. **API layer** — FastAPI exposes `/upload`, `/ask`, and `/stats` endpoints
-6. **Frontend** — Streamlit UI for document upload, Q&A, and real-time latency metrics
+## Live Demo
+- **Frontend:** https://docpal.streamlit.app
+- **Backend API:** https://rag-pipeline-production-ccb0.up.railway.app/docs
 
 ## Architecture
 
 ```
-User → Streamlit UI → FastAPI Backend
-                            ↓
-                    Document Upload
-                            ↓
-                    Chunker (500w, 50 overlap)
-                            ↓
-                    Embedder (all-MiniLM-L6-v2)
-                            ↓
-                    ChromaDB (vector store)
-                            ↓
-                    Hybrid Search (Vector + BM25 → RRF)
-                            ↓
-                    Groq API (Llama 3.1 8B)
-                            ↓
-                    Cited Answer + Latency Metrics
+User Query
+    ↓
+LangGraph Router (Llama 3.1 8B)
+    ↓
+factual → Hybrid Search (BM25 + Vector + RRF) → top 5 chunks
+comparison → Hybrid Search → top 7 chunks
+out_of_scope → polite decline (no LLM call)
+    ↓
+Cross-Encoder Reranker (ms-marco-MiniLM-L-6-v2)
+    ↓
+LangChain + Groq (Llama 3.1 8B) → Answer
+    ↓
+LangSmith Trace
 ```
 
-## Results
+## Key Features
 
-- Chunk size: 500 words with 50-word overlap
-- Embedding dimensions: 384 (all-MiniLM-L6-v2)
-- Average retrieval time: ~20–45ms
-- Average generation time: ~500–1000ms  
-- Total documents indexed: 6 (Canadian Securities Course chapters)
-- Zero hallucination — answers constrained to provided context only
+- **Hybrid Search** — BM25 + Vector embeddings combined with Reciprocal Rank Fusion (RRF)
+- **Cross-Encoder Reranker** — ms-marco-MiniLM-L-6-v2 reranks top 10 to top 5/7 for higher precision
+- **LangGraph Router** — classifies queries as factual, comparison, or out_of_scope before retrieval
+- **Prompt Versioning** — all prompts stored in prompts.yaml with version tracking
+- **Citation Enforcement** — LLM explicitly declines when context does not support the answer
+- **LangSmith Observability** — every chain call traced with inputs, outputs, latency, and tokens
+- **RAGAS Evaluation** — 50 verified Q&A pairs, faithfulness scoring, CI gate at 0.75
+- **GitHub Actions CI** — eval runs on every push, build fails if faithfulness drops
+- **Persistent Metrics** — per-query metrics saved to metrics.json, P50/P95 latency on dashboard
+- **URL Ingestion** — ingest any web page alongside PDFs and TXT files
 
-## Tradeoffs & Design Decisions
+## Evaluation Results
 
-- **Hybrid search over pure vector search** — BM25 catches exact keyword matches that semantic search misses; RRF ensures both signals contribute fairly to ranking
-- **Groq API over local LLM** — Groq's hosted Llama 3.1 delivers sub-second generation with no local GPU requirement, making the system portable and demo-ready
-- **ChromaDB EphemeralClient on deployment** — since users upload their own documents per session, persistence is not required; this avoids filesystem permission issues on hosted environments
-- **Chunk size 500 / overlap 50** — balances retrieval precision (smaller chunks = more focused) with context richness (overlap = no lost context at boundaries)
-
-## What I'd Improve
-
-- Add re-ranking with a cross-encoder model for higher retrieval precision
-- Persist BM25 index to disk for large document sets (currently rebuilt in memory per session)
-- Support DOCX, HTML, and CSV formats
-- Add a ground-truth evaluation harness to measure answer accuracy (e.g. RAGAS)
-- Swap ChromaDB for a managed vector database (Pinecone or Weaviate) for multi-user persistence
-
-## Tools Used
-
-| Layer | Tool |
+| Metric | Score |
 |---|---|
-| Document parsing | PyMuPDF (fitz) |
-| Chunking | Custom Python |
-| Embeddings | sentence-transformers (all-MiniLM-L6-v2) |
-| Vector store | ChromaDB |
-| Keyword search | rank-bm25 (BM25Okapi) |
-| Fusion | Reciprocal Rank Fusion (RRF) |
-| LLM | Llama 3.1 8B via Groq API |
-| Backend | FastAPI + Uvicorn |
-| Frontend | Streamlit |
-| Deployment | Railway (backend) |
+| Faithfulness | 0.96 |
+| Out of scope accuracy | 100% |
+| Citation coverage | 76% |
+| Golden dataset | 50 Q&A pairs |
+| CI pipeline | Passing |
 
-## Running Locally
+## Tech Stack
 
-```bash
-git clone https://github.com/Fawazahmad75/rag-pipeline
-cd rag-pipeline
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+| Component | Technology |
+|---|---|
+| LLM | Llama 3.1 8B via Groq |
+| Embeddings | all-MiniLM-L6-v2 (384 dims) |
+| Reranker | cross-encoder/ms-marco-MiniLM-L-6-v2 |
+| Vector DB | ChromaDB |
+| Orchestration | LangGraph |
+| LLM Framework | LangChain |
+| Observability | LangSmith |
+| Backend | FastAPI on Railway |
+| Frontend | Streamlit Cloud |
+
+## Project Structure
+
+```
+rag-pipeline/
+├── src/
+│   ├── chunker.py        # PDF/TXT/URL extraction + chunking (500 words, 100 overlap)
+│   ├── embedder.py       # Lazy-loaded embeddings + ChromaDB
+│   ├── retriever.py      # Hybrid search (BM25 + Vector + RRF) + cross-encoder reranker
+│   ├── generator.py      # LangChain chains + prompt versioning + LangSmith tracing
+│   └── graph.py          # LangGraph state machine router
+├── evaluation/
+│   ├── ground_truth.json # 50 verified Q&A pairs from CSC chapters
+│   ├── ingest_docs.py    # Batch PDF ingestion script
+│   ├── run_eval.py       # Eval script with CI exit codes
+│   └── results.json      # Latest eval results
+├── .github/
+│   └── workflows/
+│       └── eval.yml      # GitHub Actions CI pipeline
+├── prompts.yaml          # Versioned prompt config
+├── metrics.json          # Per-request metrics log
+├── api.py                # FastAPI backend
+├── app.py                # Core pipeline logic
+└── ui.py                 # Streamlit dashboard
 ```
 
-Add your Groq API key to a `.env` file:
-```
-GROQ_API_KEY=your_key_here
-```
+## Interview Talking Points
 
-Start the backend:
-```bash
-uvicorn api:app --reload
-```
+**Why cross-encoder reranker?**
+Bi-encoder embeddings are fast but approximate. The cross-encoder evaluates the query and each chunk together as a pair, which is far more accurate. I added it after hybrid search to rerank the top 10 results down to 5 or 7.
 
-Start the frontend (in a new terminal):
-```bash
-streamlit run ui.py
-```
+**Why P50/P95 instead of average latency?**
+Averages hide worst-case performance. P95 tells me what the slowest 5% of users experience. In production you optimize for P95, not average.
 
-Then open `http://localhost:8501`, upload a document, and start asking questions.
+**Why CI evaluation gating?**
+A prompt change can break your RAG just as badly as a code change. By running eval on every push and failing the build if faithfulness drops below 0.75, I treat AI quality the same way I treat test coverage.
 
-## Live Demo
+**Why prompt versioning?**
+If I change a prompt and quality degrades, I need to know exactly which version caused it. Versioning prompts in a config file makes them trackable and auditable.
 
-[ live Demo:](https://docpall.streamlit.app/)
+**Why hybrid search with RRF?**
+Pure vector search misses exact keyword matches. Pure BM25 misses semantic meaning. I caught that naive combination always prioritized vector results, so I implemented RRF to give both signals fair weight.
+
+**Why LangGraph?**
+Not all queries are equal. Factual queries need 5 chunks, comparison queries need 7, and out-of-scope queries should not hit the LLM at all. LangGraph lets me define this as a proper state machine with conditional routing.
