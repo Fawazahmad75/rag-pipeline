@@ -20,7 +20,7 @@ st.markdown("""
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body, [data-testid="stAppViewContainer"] {
-    background-color: #111827 !important;
+    background-color: #042366 !important;
     color: #E8EAF0 !important;
     font-family: 'DM Sans', sans-serif !important;
 }
