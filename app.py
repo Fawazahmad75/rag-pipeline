@@ -46,4 +46,6 @@ def ask(query: str):
         "generation_ms": 0.0,
         "trace_url": ""
     })
+    # Rename metadata to sources for API consistency
+    result["sources"] = result.pop("metadata", [])
     return result
