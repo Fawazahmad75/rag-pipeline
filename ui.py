@@ -141,60 +141,64 @@ with tab1:
 # TAB 2 — DASHBOARD
 # ══════════════════════════════════════════════════════════════════════════════
 with tab2:
-    st.header("📊 Session Dashboard")
+    st.header("📊 Dashboard")
 
-    history = st.session_state.query_history
+    try:
+        metrics_response = requests.get(f"{API_URL}/metrics")
+        if metrics_response.ok:
+            data = metrics_response.json()
+            summary = data.get("summary", {})
+            metrics = data.get("metrics", [])
 
-    if not history:
-        st.info("No queries yet — ask a question in the Ask tab to see metrics here.")
-    else:
-        total = len(history)
-        cited = sum(1 for h in history if h["cited"])
-        declined = sum(1 for h in history if h["declined"])
-        avg_retrieval = sum(h["retrieval_ms"] for h in history) / total
-        avg_generation = sum(h["generation_ms"] for h in history) / total
-        citation_rate = cited / total * 100
-        decline_rate = declined / total * 100
+            if not summary:
+                st.info("No queries yet — ask a question to see metrics here.")
+            else:
+                # KPI row
+                col1, col2, col3, col4, col5 = st.columns(5)
+                col1.metric("Total Queries", summary.get("total_queries", 0))
+                col2.metric("Citation Coverage", f"{summary.get('citation_rate', 0)}%")
+                col3.metric("Decline Rate", f"{summary.get('decline_rate', 0)}%")
+                col4.metric("P50 Latency", f"{summary.get('p50_latency_ms', 0)}ms")
+                col5.metric("P95 Latency", f"{summary.get('p95_latency_ms', 0)}ms")
 
-        # ── KPI metrics ───────────────────────────────────────────────────────
-        col1, col2, col3, col4, col5 = st.columns(5)
-        col1.metric("Total Queries", total)
-        col2.metric("Citation Coverage", f"{citation_rate:.0f}%")
-        col3.metric("Decline Rate", f"{decline_rate:.0f}%")
-        col4.metric("Avg Retrieval", f"{avg_retrieval:.0f}ms")
-        col5.metric("Avg Generation", f"{avg_generation:.0f}ms")
+                st.divider()
 
-        st.divider()
+                col_a, col_b = st.columns(2)
 
-        # ── Query type breakdown ──────────────────────────────────────────────
-        col_a, col_b = st.columns(2)
+                with col_a:
+                    st.subheader("Avg Latency Breakdown")
+                    st.metric("Avg Retrieval", f"{summary.get('avg_retrieval_ms', 0)}ms")
+                    st.metric("Avg Generation", f"{summary.get('avg_generation_ms', 0)}ms")
 
-        with col_a:
-            st.subheader("Query Type Breakdown")
-            type_counts = {}
-            for h in history:
-                t = h["query_type"]
-                type_counts[t] = type_counts.get(t, 0) + 1
-            for qtype, count in type_counts.items():
-                st.write(f"**{qtype.upper()}:** {count} queries")
+                with col_b:
+                    st.subheader("Query Type Breakdown")
+                    type_counts = {}
+                    for m in metrics:
+                        t = m.get("query_type", "unknown")
+                        type_counts[t] = type_counts.get(t, 0) + 1
+                    for qtype, count in type_counts.items():
+                        st.write(f"**{qtype.upper()}:** {count} queries")
 
-        with col_b:
-            st.subheader("Latency Over Time")
-            retrieval_data = [h["retrieval_ms"] for h in history]
-            generation_data = [h["generation_ms"] for h in history]
-            st.line_chart({
-                "Retrieval (ms)": retrieval_data,
-                "Generation (ms)": generation_data
-            })
+                st.divider()
 
-        st.divider()
+                # Latency over time chart
+                if metrics:
+                    st.subheader("Latency Over Time (Last 20 Queries)")
+                    st.line_chart({
+                        "Retrieval (ms)": [m["retrieval_ms"] for m in metrics],
+                        "Generation (ms)": [m["generation_ms"] for m in metrics]
+                    })
 
-        # ── Query history table ───────────────────────────────────────────────
-        st.subheader("Query History")
-        for i, h in enumerate(reversed(history)):
-            with st.expander(f"[{h['timestamp']}] {h['query'][:60]}..."):
-                c1, c2, c3, c4 = st.columns(4)
-                c1.write(f"**Type:** {h['query_type']}")
-                c2.write(f"**Retrieval:** {h['retrieval_ms']}ms")
-                c3.write(f"**Cited:** {'✅' if h['cited'] else '❌'}")
-                c4.write(f"**Declined:** {'Yes' if h['declined'] else 'No'}")
+                st.divider()
+
+                # Query history
+                st.subheader("Recent Query History")
+                for m in reversed(metrics):
+                    with st.expander(f"[{m['timestamp'][:19]}] {m['query'][:60]}..."):
+                        c1, c2, c3, c4 = st.columns(4)
+                        c1.write(f"**Type:** {m.get('query_type', 'N/A')}")
+                        c2.write(f"**Total:** {m.get('total_ms', 0)}ms")
+                        c3.write(f"**Cited:** {'✅' if m.get('cited') else '❌'}")
+                        c4.write(f"**Declined:** {'Yes' if m.get('declined') else 'No'}")
+    except Exception as e:
+        st.error(f"Could not load metrics: {e}")
