@@ -3,7 +3,7 @@
 A production-grade RAG (Retrieval-Augmented Generation) assistant for financial advisors, built on the Canadian Securities Course (CSC) material. Fully observable, evaluated, and CI-gated.
 
 ## Live Demo
-- **Frontend:** https://docpal.streamlit.app
+- **Frontend:** https://docpall.streamlit.app
 - **Backend API:** https://rag-pipeline-production-ccb0.up.railway.app/docs
 
 ## Architecture
